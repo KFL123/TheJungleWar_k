@@ -10,7 +10,7 @@ namespace TCP服务器_0_0_1v
 
     class Program
     {
-          static void Main(string[] args)
+        static void Main(string[] args)
         {
             StartServerAsync();
             Console.ReadKey();
@@ -39,7 +39,7 @@ namespace TCP服务器_0_0_1v
             {
                 clientSocket = ar.AsyncState as Socket;
                 int count = clientSocket.EndReceive(ar);
-                if (count ==0)
+                if (count == 0)
                 {
                     clientSocket.Close();
                     return;
@@ -48,15 +48,15 @@ namespace TCP服务器_0_0_1v
                 Console.WriteLine("客户端接收数据：" + msg);
                 clientSocket.BeginReceive(dataBuffer, 0, 1024, SocketFlags.None, ReceiveCallBack, clientSocket);//循环执行异步
             }
-            catch(Exception e)
+            catch (Exception e)
             {
                 Console.WriteLine(e);
-                if (clientSocket!=null)
+                if (clientSocket != null)
                 {
                     clientSocket.Close();
                 }
             }
-            clientSocket.BeginAccept(AcceptCallBack,clientSocket);
+            //clientSocket.BeginAccept(AcceptCallBack, clientSocket);
         }
         static void AcceptCallBack(IAsyncResult ar)
         {
@@ -67,10 +67,9 @@ namespace TCP服务器_0_0_1v
             byte[] data = System.Text.Encoding.UTF8.GetBytes(msg);
             clientSocket.Send(data);
             clientSocket.BeginReceive(dataBuffer, 0, 1024, SocketFlags.None, ReceiveCallBack, clientSocket);//异步接收这是一步的任务
-
-
-            serverSocket.BeginAccept(AcceptCallBack,serverSocket);//再执行时表示接收多个客户端的请求
+            serverSocket.BeginAccept(AcceptCallBack, serverSocket);//再执行时表示接收多个客户端的请求
 
         }
+
     }
 }
