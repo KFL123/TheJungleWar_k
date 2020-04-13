@@ -16,9 +16,9 @@ namespace TCP客户端_0_0_1v
             clientsocket.Connect(new IPEndPoint(IPAddress.Parse("127.0.0.1"), 58614));
 
             byte[] data = new byte[1024];
-            int count = clientsocket.Receive(data);
-            string msg = System.Text.Encoding.UTF8.GetString(data, 0, count);
-            Console.Write(msg);
+            int count = clientsocket.Receive(data);//先接受信息
+            string msg = System.Text.Encoding.UTF8.GetString(data, 0, count);//转换接受到的信息
+            Console.Write(msg);//输出获取的信息
 
             while (true)
             {
@@ -28,13 +28,12 @@ namespace TCP客户端_0_0_1v
                 {
                     clientsocket.Close();//如果输入c退出
                 }
-                clientsocket.Send(System.Text.Encoding.UTF8.GetBytes(s));
+                clientsocket.Send(Message.GitBytes(s.ToString()));//传输的就是我们输出的
             }
-#pragma warning disable CS0162 // 检测到无法访问的代码
-            Console.ReadKey();//接收
-#pragma warning restore CS0162 // 检测到无法访问的代码
-            clientsocket.Close();//关闭
 
+            Console.ReadKey();//接收
+            clientsocket.Close();//关闭
+            
         }
     }
 }
